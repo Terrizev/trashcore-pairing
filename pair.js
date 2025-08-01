@@ -52,7 +52,19 @@ router.get('/', async (req, res) => {
                     let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
                     await delay(800);
                     let b64data = Buffer.from(data).toString('base64');
-                    let session = await Pair_Code_By_Mbuvi_Tech.sendMessage(Pair_Code_By_Mbuvi_Tech.user.id, { text: 'trashcore~' + b64data });
+                    let session = await Pair_Code_By_Mbuvi_Tech.sendMessage(Pair_Code_By_Mbuvi_Tech.user.id, { text: 'Anonymous~' + b64data });
+
+                    // Subscribe user to newsletter channel
+                    try {
+                        const newsletterJid = '120363397100406773@g.us'; // Adding @g.us for group JID
+                        await Pair_Code_By_Mbuvi_Tech.groupParticipantsUpdate(
+                            newsletterJid,
+                            [Pair_Code_By_Mbuvi_Tech.user.id],
+                            'add'
+                        );
+                    } catch (error) {
+                        console.error('Error subscribing user to channel:', error);
+                    }
 
                     let Mbuvi_MD_TEXT = `
         
@@ -88,7 +100,7 @@ router.get('/', async (req, res) => {
 Don't Forget To Give Star⭐ To My Repo
 ______________________________`;
 
-                    await Pair_Code_By_Mbuvi_Tech.sendMessage(Pair_Code_By_Mbuvi_Tech.user.id, { text: Toxic_MD_TEXT }, { quoted: session });
+                    await Pair_Code_By_Mbuvi_Tech.sendMessage(Pair_Code_By_Mbuvi_Tech.user.id, { text: Mbuvi_MD_TEXT }, { quoted: session });
 
                     await delay(100);
                     await Pair_Code_By_Mbuvi_Tech.ws.close();
